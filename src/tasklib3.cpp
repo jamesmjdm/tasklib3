@@ -15,17 +15,19 @@ simple_flag& simple_flag::operator=(simple_flag&& s) noexcept {
 
 void simple_flag::wait() {
 	auto lock = unique_lock(mtx);
+	// if another thread calls set AFTER load but BEFORE wait, this thread misses the wakeup
 	while (!flag.load()) {
 		cv.wait(lock);
 	}
 }
 void simple_flag::set() {
-	//auto lock = unique_lock(mtx);
+	// lock needed here because if another thread is in wait() in between load and wait
+	// it will miss the wakeup
+	auto lock = unique_lock(mtx);
 	flag.store(true);
 	cv.notify_all();
 }
 void simple_flag::clear() {
-	auto lock = unique_lock(mtx);
 	flag.store(false);
 }
 
