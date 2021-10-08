@@ -7,7 +7,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 project ("tasklib3")
+add_library(tasklib3 STATIC "src/tasklib3.cpp")
+target_include_directories(tasklib3 PUBLIC "include")
 
-
-add_executable (tasklib3 "src/main.cpp" "src/tasklib3.cpp")
-target_compile_features(tasklib3 PUBLIC cxx_std_20)
+project("tasklib3_test")
+add_executable (tasklib3_test "src/main.cpp")
+target_include_directories(tasklib3_test PUBLIC "include")
+target_link_libraries(tasklib3_test PUBLIC tasklib3)
