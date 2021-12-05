@@ -19,12 +19,12 @@ TaskSet make_test_set() {
 	for (int i = 0; i < num_tasks; i++) {
 		names.emplace_back("task." + to_string(i));
 	}
-	
+
 	auto builder = TaskSetBuilder();
 	for (int i = 0; i < num_tasks; i++) {
 		// can depend on previous tasks with 
 		auto deps = unordered_set<string> {};
-		for (int j = 0; j < i-1; j++) {
+		for (int j = 0; j < i - 1; j++) {
 			if (rand() % 100 < 50) {
 				deps.insert(names[j]);
 			}
@@ -32,7 +32,7 @@ TaskSet make_test_set() {
 
 		builder.add(names[i], deps, test_task);
 	}
-	
+
 	return builder.build();
 }
 
@@ -51,6 +51,6 @@ int main() {
 
 	printf("press enter to continue...\n");
 	getchar();
-	
+
 	return 0;
 }
