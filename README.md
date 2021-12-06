@@ -19,7 +19,7 @@ The final calculation will not run until all intermediate results are ready. Thi
 
 The `TaskSetBuilder` class topologically sorts the subtasks that are added, so no task will be executed before any of its dependencies
 
-```
+```cpp
 #include <iostream>
 #include "tasklib3.h"
 using namespace std;
