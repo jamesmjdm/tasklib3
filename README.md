@@ -1,21 +1,33 @@
 # tasklib3
 
 A simple parallel work queue implementation
+ 
 	* The standalone project is cmake based
+ 
 	* Very small amount of code and only depends on the standard library
+ 
 	* Can be dropped easily into any project
 
 Allows to group "tasks" declaratively into a "workflow" with dependency relationships, and run workflow in parallel with a thread pool
 
 Improved version of tasklib2
-	* The task queue is now just a `vector` and uses atomic_uint to determine the next task * no locking and no allocations while tasks are running which would require "stop the world" on task runners
+ 
+	* The task queue is now just a `vector` and uses atomic_uint to determine the next task 
+	
+	* no locking and no allocations while tasks are running which would require "stop the world" on task runners
+ 
 	* `atomic_flag` and the wrapper `simple_flag` used as much as possible, this is guaranteed to be lock-free unlike the semaphore implementation in tasklib2. Also simplified the code a lot
+ 
 	* The engine class `run` method runs tasks as well and blocks until all tasks are complete, this is more intuitive and probably easier to code against
 
 Other changes:
+ 
 	* `Workflow` and `WorkflowBuilder` renamed to `TaskSet` and `TaskSetBuilder`
+ 
 	* Snake case now
+ 
 	* Some methods renamed
+ 
 	* When constructing TaskEngine, if you want to run tasks on N threads, pass N-1 as the number of worker threads because the calling thread will do work in run()
 
 
