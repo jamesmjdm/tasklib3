@@ -66,14 +66,7 @@ private:
 	unordered_map<string, unordered_set<string>> reverse_deps;
 };
 
-
-/*
-* Despite the fact that TaskEngine uses threads, it should not be considered thread-safe in and of itself.
-* run() will block the calling thread until the task set is complete - tasks are also executed in the calling thread.
-* - Do NOT call run() from another thread while tasks are in flight.
-* - Do NOT destruct a TaskEngine instance from one thread while tasks are in flight on another thread
-*/
-
+// TODO: replace this with atomic_flag as soon as the wait() and so on methods are available
 class simple_flag {
 public:
 	copy_disable(simple_flag);
@@ -94,6 +87,15 @@ private:
 	condition_variable cv;
 	mutex mtx;
 };
+
+
+/*
+* Despite the fact that TaskEngine uses threads, it should not be considered thread-safe in and of itself.
+* run() will block the calling thread until the task set is complete - tasks are also executed in the calling thread.
+* - Do NOT call run() from another thread while tasks are in flight.
+* - Do NOT destruct a TaskEngine instance from one thread while tasks are in flight on another thread
+*/
+
 
 class TaskEngine {
 public:
