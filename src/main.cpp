@@ -36,33 +36,6 @@ TaskSet make_test_set() {
 	return builder.build();
 }
 
-int i1 = 0;
-int i2 = 0;
-int i3 = 0;
-int result = 0;
-
-void task1() {
-	i1 = 1 * 1;
-}
-void task2() {
-	i2 = 2 * 2;
-}
-void task3() {
-	i3 = 3 * 3;
-}
-void dependentTask() {
-	result = i1 + i2 + i3;
-}
-
-TaskSet sdf() {
-	return TaskSetBuilder()
-		.add("Task1", {}, task1)
-		.add("Task2", {}, task2)
-		.add("Task3", {}, task3)
-		.add("FinalCalc", { "Task1", "Task2", "Task3" }, dependentTask)
-		.build();
-}
-
 int main() {
 	auto engine = unique_ptr<TaskEngine>(new TaskEngine(7));
 
